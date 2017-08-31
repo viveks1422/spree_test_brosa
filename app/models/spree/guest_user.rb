@@ -1,3 +1,3 @@
 class Spree::GuestUser < ApplicationRecord
-	has_many :wishlists, dependent: :destroy,foreign_key: :user_id
+	has_many :wishlists
 end

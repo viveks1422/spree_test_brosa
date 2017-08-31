@@ -9,13 +9,14 @@ class Spree::WishlistsController < Spree::StoreController
 
   def new
     @wishlist = Spree::Wishlist.new
-    respond_with(@wishlist)
+    # respond_with(@wishlist)
   end
 
   def index
-    debugger
-    @wishlists = spree_current_user.wishlists
-    respond_with(@wishlist)
+
+    @wishlists = spree_current_user.wishlists if spree_current_user
+    @wishlists = current_guest_user.wishlists if current_guest_user
+    # respond_with(@wishlists)
   end
 
   def edit
@@ -32,7 +33,7 @@ class Spree::WishlistsController < Spree::StoreController
   end
 
   def default
-    @wishlist = spree_current_user.wishlist
+    @wishlist = spree_current_user.wishlist if spree_current_user
     respond_with(@wishlist) do |format|
       format.html { render :show }
     end
@@ -40,7 +41,8 @@ class Spree::WishlistsController < Spree::StoreController
 
   def create
     @wishlist = Spree::Wishlist.new wishlist_attributes
-    @wishlist.user = spree_current_user
+    @wishlist.user = spree_current_user if spree_current_user
+    @wishlist.guest_user = current_guest_user if current_guest_user
     @wishlist.save
     respond_with(@wishlist)
   end
