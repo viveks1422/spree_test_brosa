@@ -1,0 +1,21 @@
+default: &default
+  encoding: unicode
+  host: localhost
+  timeout: 5000
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  adapter: sqlite3
+  database: db/development.sqlite3
+test:
+  <<: *default
+  adapter: sqlite3
+  database: db/test.sqlite3
+
+production:
+  <<: *default
+  adapter: postgresql
+  database: brosa_production
+  username: postgres
+  password: <%= ENV['prod_database_pass'] %>
